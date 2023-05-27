@@ -28,24 +28,28 @@ namespace Assessment
 
                 cmd.Parameters.AddWithValue("@contactID", "");
                 cmd.Parameters.AddWithValue("@companyName", "");
-                cmd.Parameters.AddWithValue("@firstName", "");
-                cmd.Parameters.AddWithValue("@lastName", "");
+                cmd.Parameters.AddWithValue("@name", "");
+                cmd.Parameters.AddWithValue("@phone", "");
                 cmd.Parameters.AddWithValue("@email", "");
-                cmd.Parameters.AddWithValue("@category", "");
-                cmd.Parameters.AddWithValue("@professionID", "");
+                cmd.Parameters.AddWithValue("@source", "");
+                cmd.Parameters.AddWithValue("@Address", "");
+                cmd.Parameters.AddWithValue("@profession", "");
+                cmd.Parameters.AddWithValue("@status", "");
                 cmd.Parameters.AddWithValue("@isActive", "");
                 cmd.Parameters.AddWithValue("@createdON", "");
                 SqlDataReader read= cmd.ExecuteReader();
                 while (read.Read()) 
                 {
                     ObjContact contactAll = new ObjContact();
-                    contactAll.ContactID = Convert.ToInt32(read["contact_id"]);
-                    contactAll.CompanyName = read["company_name"].ToString();
-                    contactAll.FirstName = read["first_name"].ToString();
-                    contactAll.LastName = read["last_name"].ToString();
-                    contactAll.Email = read["email"].ToString();
-                    contactAll.Category = read["category"].ToString();
-                    contactAll.ProfessionID = Convert.ToInt32(read["profession_id"]);
+                    contactAll.ContactID = Convert.ToInt32(read["Contact ID"]);
+                    contactAll.CompanyName = read["Company"].ToString();
+                    contactAll.Name = read["Name"].ToString();
+                    contactAll.Phone = read["Phone"].ToString();
+                    contactAll.Email = read["Email"].ToString();
+                    contactAll.Source = read["Source"].ToString();
+                    contactAll.Address = read["Address"].ToString();
+                    contactAll.Profession = read["Profession"].ToString();
+                    contactAll.Status = read["Status"].ToString();
 
                     contacts.Add(contactAll);
                 }
@@ -64,11 +68,13 @@ namespace Assessment
                 command.Parameters.AddWithValue("@TType", "INSERT");
                 command.Parameters.AddWithValue("@contactID", "");
                 command.Parameters.AddWithValue("@companyName", contact.CompanyName);
-                command.Parameters.AddWithValue("@firstName", contact.FirstName);
-                command.Parameters.AddWithValue("@lastName", contact.LastName);
+                command.Parameters.AddWithValue("@name", contact.Name);
+                command.Parameters.AddWithValue("@Phone", contact.Phone);
                 command.Parameters.AddWithValue("@email", contact.Email);
-                command.Parameters.AddWithValue("@category", contact.Category);
-                command.Parameters.AddWithValue("@professionID", contact.ProfessionID);
+                command.Parameters.AddWithValue("@source", contact.Source);
+                command.Parameters.AddWithValue("@Address", contact.Address);
+                command.Parameters.AddWithValue("@profession", contact.Profession);
+                command.Parameters.AddWithValue("@status",contact.Status );
                 command.Parameters.AddWithValue("@isActive","" );
                 command.Parameters.AddWithValue("@createdON", "");
                 connection.Open();
@@ -84,13 +90,15 @@ namespace Assessment
                 SqlCommand command = new SqlCommand("sp_ContactDataDetails", connection);
                 command.CommandType= CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@TType", "UPDATE");
+                command.Parameters.AddWithValue("@contactID", "");
                 command.Parameters.AddWithValue("@companyName", contact.CompanyName);
-                command.Parameters.AddWithValue("@firstName", contact.FirstName);
-                command.Parameters.AddWithValue("@lastName", contact.LastName);
+                command.Parameters.AddWithValue("@name", contact.Name);
+                command.Parameters.AddWithValue("@Phone", contact.Phone);
                 command.Parameters.AddWithValue("@email", contact.Email);
-                command.Parameters.AddWithValue("@category", contact.Category);
-                command.Parameters.AddWithValue("@professionID", contact.ProfessionID);
-                command.Parameters.AddWithValue("@contactID", contact.ContactID);
+                command.Parameters.AddWithValue("@source", contact.Source);
+                command.Parameters.AddWithValue("@Address", contact.Address);
+                command.Parameters.AddWithValue("@profession", contact.Profession);
+                command.Parameters.AddWithValue("@status", contact.Status);
                 command.Parameters.AddWithValue("@isActive", "");
                 command.Parameters.AddWithValue("@createdON", "");
                 connection.Open();
@@ -107,12 +115,13 @@ namespace Assessment
                 command.Parameters.AddWithValue("@TType", "DELETE");
                 command.Parameters.AddWithValue("@contactID", contactID);
                 command.Parameters.AddWithValue("@companyName", "");
-                command.Parameters.AddWithValue("@firstName", "");
-                command.Parameters.AddWithValue("@lastName", "");
+                command.Parameters.AddWithValue("@name", "");
+                command.Parameters.AddWithValue("@Phone", "");
                 command.Parameters.AddWithValue("@email", "");
-                command.Parameters.AddWithValue("@category",     "");
-                command.Parameters.AddWithValue("@professionID", "");
-   
+                command.Parameters.AddWithValue("@source", "");
+                command.Parameters.AddWithValue("@Address", "");
+                command.Parameters.AddWithValue("@profession",   "");
+                command.Parameters.AddWithValue("@status", "");
                 command.Parameters.AddWithValue("@isActive", "");
                 command.Parameters.AddWithValue("@createdON", "");
                 connection.Open();
@@ -125,8 +134,8 @@ namespace Assessment
 
             using (SqlConnection con = new SqlConnection(cs))
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_Contacts WHERE contact_ID = @ContactID", con);
-                cmd.Parameters.AddWithValue("@ContactID", contactID);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM tbluContact WHERE [Contact ID] = @ContactID", con);
+                cmd.Parameters.AddWithValue("@contactID", contactID);
                 con.Open();
 
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -137,11 +146,13 @@ namespace Assessment
                     {
                         ContactID = Convert.ToInt32(reader["contact_ID"]),
                         CompanyName = reader["company_name"].ToString(),
-                        FirstName = reader["first_name"].ToString(),
-                        LastName = reader["last_name"].ToString(),
-                        Email = reader["email"].ToString(),
-                        Category = reader["category"].ToString(),
-                        ProfessionID = Convert.ToInt32(reader["profession_id"])
+                        Name = reader["Name"].ToString(),
+                        Phone = reader["Phone"].ToString(),
+                        Email = reader["Email"].ToString(),
+                        Source = reader["Source"].ToString(),
+                        Address = reader["Address"].ToString(),
+                        Profession = reader["Profession"].ToString(),
+                        Status = reader["status"].ToString(),
                     };
                 }
 

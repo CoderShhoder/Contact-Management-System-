@@ -9,10 +9,12 @@ namespace Assessment
     {
         public int ContactID { get; set; }
         public string CompanyName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Name { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
-        public string Category { get; set; }
-        public int ProfessionID { get; set; }
+        public string Source { get; set; }
+        public string Address { get; set; }
+        public string Profession { get; set; }
+        public string Status { get; set; }
     }
 }

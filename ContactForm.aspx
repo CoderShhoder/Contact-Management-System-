@@ -14,8 +14,6 @@
         <div class="d-flex flex-row">
             
             <div class="d-flex flex-column px-5 py-3" id="formContainer">
-                
-
                 <div>
                     <div class="form-group">
                         <label for="txtCompanyName">Company Name:</label>
