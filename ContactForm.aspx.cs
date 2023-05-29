@@ -19,10 +19,11 @@ namespace Assessment
         {
             if (!IsPostBack)
             {
-                
-                ddlCategory.Items.Insert(0, "--Select Category--");
                 BindContacts();
                 professionDropdown();
+                AddressDropdown();
+                SourceDropdown();
+                StatusDropdown();
             }
         }
 
@@ -52,6 +53,59 @@ namespace Assessment
             }
         }
 
+        protected void AddressDropdown()
+        {
+            string st = ConfigurationManager.ConnectionStrings["assessmentDBConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(st))
+            {
+                SqlCommand sql = new SqlCommand("sp_DropdownPopulation", con);
+
+                con.Open();
+                sql.CommandType = CommandType.StoredProcedure;
+                sql.Parameters.AddWithValue("@TType", "ADDRESS");
+                ddlAddress.DataSource = sql.ExecuteReader();
+                ddlAddress.DataTextField = "Name";
+                ddlAddress.DataValueField = "ID";
+                ddlAddress.DataBind();
+                ddlAddress.Items.Insert(0, "--Select Address--");
+            }
+        }
+        protected void StatusDropdown()
+        {
+            string st = ConfigurationManager.ConnectionStrings["assessmentDBConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(st))
+            {
+                SqlCommand sql = new SqlCommand("sp_DropdownPopulation", con);
+
+                con.Open();
+                sql.CommandType = CommandType.StoredProcedure;
+                sql.Parameters.AddWithValue("@TType", "STATUS");
+                ddlStatus.DataSource = sql.ExecuteReader();
+                ddlStatus.DataTextField = "Status";
+                ddlStatus.DataValueField = "StatusID";
+                ddlStatus.DataBind();
+                ddlStatus.Items.Insert(0, "--Select Status--");
+            }
+        }
+        protected void SourceDropdown()
+        {
+            string st = ConfigurationManager.ConnectionStrings["assessmentDBConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(st))
+            {
+                SqlCommand sql = new SqlCommand("sp_DropdownPopulation", con);
+
+                con.Open();
+                sql.CommandType = CommandType.StoredProcedure;
+                sql.Parameters.AddWithValue("@TType", "SOURCE");
+                ddlSource.DataSource = sql.ExecuteReader();
+                ddlSource.DataTextField = "Source";
+                ddlSource.DataValueField = "SourceID";
+                ddlSource.DataBind();
+                ddlSource.Items.Insert(0, "--Select Profession--");
+            }
+        }
+
+
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "EditContact")
@@ -80,11 +134,13 @@ namespace Assessment
         private void ClearForm()
         {
             txtCompanyName.Text = string.Empty;
-            txtFirstName.Text = string.Empty;
-            txtLastName.Text = string.Empty;
+            txtName.Text = string.Empty;
+            txtPhone.Text = string.Empty;
             txtEmail.Text = string.Empty;
-            ddlCategory.SelectedIndex = 0;
+            ddlSource.SelectedIndex = 0;
+            ddlAddress.SelectedIndex = 0;
             ddlProfession.SelectedIndex = 0;
+            ddlStatus.SelectedIndex = 0;
         }
         //Adding a New Contact to the GridView
         protected void btnAddContact_Click(object sender, EventArgs e)
@@ -95,11 +151,13 @@ namespace Assessment
                 ObjContact contact = new ObjContact()
                 {
                     CompanyName = txtCompanyName.Text,
-                    FirstName = txtFirstName.Text,
-                    LastName = txtLastName.Text,
+                    Name = txtName.Text,
+                    Phone = txtPhone.Text,
                     Email = txtEmail.Text,
-                    Category = ddlCategory.SelectedValue,
-                    ProfessionID = int.Parse(ddlProfession.SelectedValue)
+                    Source = ddlSource.SelectedItem.Text.ToString(),
+                    Profession = ddlProfession.SelectedItem.Text.ToString(),
+                    Address = ddlAddress.SelectedItem.Text.ToString(),
+                    Status = ddlStatus.SelectedItem.Text.ToString(),
                 };
 
                 contactDAL.AddContact(contact);
@@ -119,10 +177,10 @@ namespace Assessment
         //Deleting the Form Feilds on the click of the Edit Button in the GridView
         protected void btnDelete_Click(object sender, EventArgs e)
         {
- 
+
             for (int i = 0; i < GridView1.Rows.Count; i++)
             {
-                if (txtFirstName.Text == GridView1.Rows[i].Cells[3].Text.ToString())
+                if (txtName.Text == GridView1.Rows[i].Cells[3].Text.ToString())
                 {
                     contactDAL.DeleteContact(int.Parse(GridView1.Rows[i].Cells[1].Text.ToString()));
                 }
@@ -132,7 +190,7 @@ namespace Assessment
 
             ClearForm();
             BindContacts();
- 
+
             lblError.ForeColor = System.Drawing.Color.Green;
             lblError.Text = "Contact Deleted Successfully";
         }
@@ -141,17 +199,19 @@ namespace Assessment
         {
             for (int i = 0; i < GridView1.Rows.Count; i++)
             {
-                if (txtFirstName.Text == GridView1.Rows[i].Cells[3].Text.ToString())
+                if (txtName.Text == GridView1.Rows[i].Cells[3].Text.ToString())
                 {
                     ObjContact contact = new ObjContact()
                     {
                         ContactID = int.Parse(GridView1.Rows[i].Cells[1].Text.ToString()),
                         CompanyName = txtCompanyName.Text,
-                        FirstName = txtFirstName.Text,
-                        LastName = txtLastName.Text,
+                        Name = txtName.Text,
+                        Phone = txtPhone.Text,
                         Email = txtEmail.Text,
-                        Category = ddlCategory.SelectedValue,
-                        ProfessionID = int.Parse(ddlProfession.SelectedValue)
+                        Source = ddlSource.SelectedItem.Text.ToString(),
+                        Profession = ddlProfession.SelectedItem.Text.ToString(),
+                        Address = ddlAddress.SelectedItem.Text.ToString(),
+                        Status = ddlStatus.SelectedItem.Text.ToString(),
                     };
 
                     contactDAL.UpdateContact(contact);
@@ -168,11 +228,13 @@ namespace Assessment
         private void PopulateFormFields(ObjContact contact)
         {
             txtCompanyName.Text = contact.CompanyName;
-            txtFirstName.Text = contact.FirstName;
-            txtLastName.Text = contact.LastName;
+            txtName.Text = contact.Name;
+            txtPhone.Text = contact.Phone;
             txtEmail.Text = contact.Email;
-            ddlCategory.SelectedValue = contact.Category;
-            ddlProfession.SelectedValue = contact.ProfessionID.ToString();
+            ddlSource.SelectedValue = contact.Source;
+            ddlProfession.SelectedValue = contact.Profession;
+            ddlAddress.SelectedValue = contact.Address;
+            ddlStatus.SelectedValue = contact.Status;
         }
     }
 }

@@ -11,9 +11,9 @@
 <body>
     <form id="form1" runat="server">
         <h3>Contact Management</h3>
-                <hr />
+        <hr />
         <div class="d-flex flex-row">
-            
+
             <div class="d-flex flex-column px-5 py-3" id="formContainer">
                 <div>
                     <div class="form-group">
@@ -23,14 +23,14 @@
                 </div>
                 <div>
                     <div class="form-group">
-                        <label for="txtFirstName">First Name:</label>
-                        <asp:TextBox ID="txtFirstName" CssClass="form-control" runat="server"></asp:TextBox>
+                        <label for="txtName">Name:</label>
+                        <asp:TextBox ID="txtName" CssClass="form-control" runat="server"></asp:TextBox>
                     </div>
                 </div>
                 <div>
                     <div class="form-group">
-                        <label for="txtLastName">Last Name:</label>
-                        <asp:TextBox ID="txtLastName" CssClass="form-control" runat="server"></asp:TextBox>
+                        <label for="txtPhone">Phone:</label>
+                        <asp:TextBox ID="txtPhone" CssClass="form-control" runat="server"></asp:TextBox>
                     </div>
                 </div>
                 <div>
@@ -41,18 +41,23 @@
                 </div>
                 <div>
                     <div class="form-group">
-                        <label for="ddlCategory">Category:</label>
-                        <asp:DropDownList ID="ddlCategory" CssClass="form-control" runat="server">
-                            <asp:ListItem Text="Client" Value="Client"></asp:ListItem>
-                            <asp:ListItem Text="Vendor" Value="Vendor"></asp:ListItem>
-                        </asp:DropDownList>
+                        <label for="ddlSource">Source:</label>
+                        <asp:DropDownList ID="ddlSource" CssClass="form-control" runat="server"></asp:DropDownList>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="ddlAddress">Address:</label>
+                    <asp:DropDownList ID="ddlAddress" CssClass="form-control" runat="server"></asp:DropDownList>
                 </div>
                 <div>
                     <div class="form-group">
                         <label for="ddlProfession">Profession:</label>
                         <asp:DropDownList ID="ddlProfession" CssClass="form-control" runat="server"></asp:DropDownList>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="ddlStatus">Status:</label>
+                    <asp:DropDownList ID="ddlStatus" CssClass="form-control" runat="server"></asp:DropDownList>
                 </div>
                 <div class="py-2">
                     <asp:Button ID="btnAddContact" CssClass="btn btn-primary" runat="server" Text="Add Contact" OnClick="btnAddContact_Click" />
@@ -62,7 +67,7 @@
 
                 <asp:Label ID="lblError" runat="server" Text=""></asp:Label>
             </div>
-            <div id="gridConatiner" >
+            <div id="gridConatiner">
                 <asp:GridView ID="GridView1" runat="server" CssClass="py-9" CellPadding="4" ForeColor="#333333" GridLines="None" OnRowCommand="GridView1_RowCommand" OnRowDataBound="GridView1_RowDataBound">
                     <AlternatingRowStyle BackColor="White" />
                     <Columns>
